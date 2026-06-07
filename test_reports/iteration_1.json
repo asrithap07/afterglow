@@ -1,0 +1,37 @@
+{
+  "summary": "First iteration full-stack test of AFTERGLOW Y2K scrapbook app. Backend: 12/12 pytest tests passing (auth register/login/logout/me, seed-demo idempotency, scrapbook CRUD with persistence, home canvas, upload + static serving, auth gating). Frontend: full happy-path E2E executed — register on /auth, redirected home, 4 demo CDs auto-seeded, stickers/note/upload all add canvas items, NEW SCRAPBOOK creates 5th CD, clicking CD navigates to /scrapbook/:id, items persist after reload, LOGOUT + re-login works. Two non-blocking issues found.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "ScrapbookPage.jsx", "issue": "Sticker / tape / paper / note toolbar buttons on /scrapbook/:id have NO data-testid attributes (only btn-home, btn-upload, scrapbook-title-display, scrapbook-canvas exist). Playwright cannot reliably target them. Home.jsx exposes btn-sticker-star/smiley/cherry/bubble — add the same to ScrapbookPage for parity & testability. Functionality itself works when buttons are clicked by text/role.", "selector": "ScrapbookPage toolbar buttons", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [
+      {"flow": "UploadWindow scrapbook dropdown", "issue": "React hydration warning: <span> cannot be a child of <option>. The dynamic scrapbook title inside <option> is wrapped with a tracking <span>, which is invalid HTML. Causes a console error but UI still functions. Fix by rendering plain text inside <option> (or use the children directly without the wrapping span).", "affected_selectors": ["[data-testid=\"upload-target\"] option"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_afterglow.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Add data-testid attributes to ScrapbookPage.jsx toolbar buttons (btn-sticker-star/smiley/cherry/bubble, btn-tape, btn-paper, btn-note, btn-bring, btn-back, btn-delete) for testing parity with Home.",
+    "Fix UploadWindow.jsx <option> dropdown to avoid rendering <span> inside <option> (React hydration warning).",
+    "Optional: suppress initial /api/auth/me 401 noise on unauthenticated landing (or only call after token exists)."
+  ],
+  "critical_code_review_comments": [
+    "server.py uses os.environ['JWT_SECRET'] / MONGO_URL / DB_NAME directly — good, fails fast on missing config.",
+    "MongoDB _id properly excluded everywhere (projection {_id:0} in queries, .pop in current_user).",
+    "Passwords hashed with bcrypt (gensalt) — $2b$ format verified implicitly via login flow tests.",
+    "No brute-force lockout implemented; not requested by problem statement but worth noting.",
+    "auth cookie set httpOnly + samesite=lax, max_age=7d — matches frontend cookie+Bearer dual-mode in api.js.",
+    "CORS uses allow_credentials=True with allow_origins from env (defaults to '*') — combination of allow_credentials and '*' will be rejected by browsers; ensure CORS_ORIGINS env is set to explicit origin in production.",
+    "seed-demo is idempotent (count check) — good.",
+    "/api/upload accepts arbitrary file size with no max — consider size limits."
+  ],
+  "updated_files": ["/app/backend/tests/test_afterglow.py", "/app/test_reports/iteration_1.json", "/app/test_reports/pytest/pytest_results.xml"],
+  "success_rate": {"backend": "100%", "frontend": "95%"},
+  "test_credentials": "Ephemeral users created per-run: tester+<rand>@afterglow.com / glow1234. /app/memory/test_credentials.md exists.",
+  "seed_data_creation": "Each test run registers a fresh user; demo scrapbooks auto-seeded by /api/seed-demo. No manual seed needed.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest at /app/backend/tests/test_afterglow.py covers all 9 backend endpoints (auth, seed, scrapbook CRUD, home, upload). Frontend E2E covered: register→home, 4 demo CDs render on the right, stickers (star/smiley/cherry/bubble) add canvas items, note + upload + new-scrapbook modals all work, CD click navigates to /scrapbook/:id with persistence across reload, logout→login round-trip works. Known gap: ScrapbookPage toolbar lacks data-testids for sticker buttons (had to skip in-page sticker test there).",
+  "rca of the issue": "1) ScrapbookPage data-testid gap: developer copied toolbar code from Home.jsx but omitted data-testid props on sticker/tape/paper/note buttons. 2) Hydration warning: UploadWindow.jsx renders {s.title} inside <option> wrapped (by tooling/transform) in a <span> with x-source-* attrs — fix by ensuring children inside <option> are plain strings."
+}

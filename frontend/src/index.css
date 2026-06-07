@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Caveat:wght@400;700&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --y2k-pink: #ffb6c1;
+  --y2k-sky: #b8e2ff;
+  --y2k-lime: #d4ff5e;
+  --y2k-cream: #fff8e7;
+  --win-grey: #d4d0c8;
+  --win-dark: #404040;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; padding: 0; }
+body {
+  font-family: 'Space Mono', monospace;
+  background: #efe7d6;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23000' d='M0 0l6 18 4-8 8-4z'/%3E%3C/svg%3E") 0 0, auto;
+}
+
+.font-vt { font-family: 'VT323', monospace; }
+.font-caveat { font-family: 'Caveat', cursive; }
+.font-pixel { font-family: 'Press Start 2P', monospace; }
+.font-mono-y2k { font-family: 'Space Mono', monospace; }
+
+.scrapbook-bg {
+  background-color: #efe7d6;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.grain::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.35; pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
+}
+
+.win-panel {
+  background: var(--win-grey);
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: 2px 2px 0 0 rgba(0,0,0,1);
+  padding: 2px;
+}
+.win-titlebar {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: white; padding: 4px 6px; font-weight: bold; font-size: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.win-btn {
+  width: 18px; height: 18px;
+  background: var(--win-grey);
+  border: 1px solid; border-color: #fff #000 #000 #fff;
+  font-size: 11px; font-weight: bold; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.retro-btn {
+  background: var(--win-grey);
+  border: 2px solid; border-color: #fff #404040 #404040 #fff;
+  box-shadow: 1px 1px 0 0 rgba(0,0,0,1);
+  padding: 4px 10px; font-weight: 600;
+  font-family: 'VT323', monospace; font-size: 16px;
+  cursor: pointer;
+}
+.retro-btn:active {
+  border-color: #404040 #fff #fff #404040;
+  transform: translate(1px,1px);
+}
+.retro-input {
+  background: white;
+  border: 2px solid; border-color: #808080 white white #808080;
+  padding: 4px 6px; outline: none; width: 100%;
+}
+
+/* polaroid photo */
+.polaroid {
+  background: white;
+  padding: 10px 10px 38px 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.15);
+  position: relative;
+}
+.polaroid img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.polaroid .caption {
+  position: absolute; left: 0; right: 0; bottom: 6px; text-align: center;
+  font-family: 'Caveat', cursive; font-size: 18px; color: #1a1aff;
+}
+
+.tape {
+  position: absolute;
+  width: 70px; height: 22px;
+  background: rgba(255, 230, 150, 0.6);
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cd-case {
+  position: relative; transition: transform .4s ease, filter .4s ease;
+  cursor: pointer;
+}
+.cd-case:hover { transform: rotate(-3deg) scale(1.05); filter: drop-shadow(0 0 24px rgba(255,200,255,0.7)); }
+.cd-case:hover .cd-disc { animation: spin 3s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.dragging { z-index: 999 !important; cursor: grabbing !important; }
+.draggable { cursor: grab; user-select: none; }
+
+.scribble-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'%3E%3Cpath d='M2 7 Q 30 1 60 7 T 120 6 T 198 8' stroke='%23ff3399' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: bottom; background-size: 100% 10px;
+  padding-bottom: 6px;
+}
+
+/* scrollbar y2k */
+::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar-track { background: var(--win-grey); }
+::-webkit-scrollbar-thumb { background: #808080; border: 2px solid; border-color: #fff #000 #000 #fff; }
+
+.shadow-paper { box-shadow: 0 4px 12px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08); }
+
+@layer base {
+  :root {
+    --background: 50 60% 92%;
+    --foreground: 0 0% 9%;
+    --primary: 320 80% 60%;
+    --primary-foreground: 0 0% 98%;
+    --border: 0 0% 80%;
+    --ring: 320 80% 60%;
+    --radius: 0.25rem;
+  }
+}
