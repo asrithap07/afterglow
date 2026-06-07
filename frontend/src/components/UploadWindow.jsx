@@ -49,7 +49,7 @@ export default function UploadWindow({ scrapbooks, onClose, onUploaded, defaultT
                 <select value={target} onChange={(e) => setTarget(e.target.value)} className="retro-input" data-testid="upload-target">
                   <option value="home">📓 Home Scrapbook (collage)</option>
                   {scrapbooks.map((s) => (
-                    <option key={s.id} value={s.id}>💿 {s.title}</option>
+                    <option key={s.id} value={s.id}>{`💿 ${s.title}`}</option>
                   ))}
                 </select>
               </div>

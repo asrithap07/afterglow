@@ -59,17 +59,17 @@ export default function ScrapbookPage() {
           </div>
           <div className="flex gap-2 items-center text-xs">
             <button onClick={() => setShowUpload(true)} className="retro-btn" data-testid="btn-upload">📷 ADD PHOTO</button>
-            <button onClick={() => addSticker("star")} className="retro-btn !p-1"><img src="/assets/star.png" className="w-5" alt="" /></button>
-            <button onClick={() => addSticker("smiley")} className="retro-btn !p-1"><img src="/assets/smiley.png" className="w-5" alt="" /></button>
-            <button onClick={() => addSticker("cherry")} className="retro-btn !p-1"><img src="/assets/cherry.png" className="w-5" alt="" /></button>
-            <button onClick={() => addSticker("bubble")} className="retro-btn !p-1"><img src="/assets/bubble.png" className="w-5" alt="" /></button>
-            <button onClick={addTape} className="retro-btn">📎 TAPE</button>
-            <button onClick={addPaper} className="retro-btn">📄 PAPER</button>
-            <button onClick={addNote} className="retro-btn">📝 NOTE</button>
+            <button onClick={() => addSticker("star")} className="retro-btn !p-1" data-testid="btn-sticker-star"><img src="/assets/star.png" className="w-5" alt="" /></button>
+            <button onClick={() => addSticker("smiley")} className="retro-btn !p-1" data-testid="btn-sticker-smiley"><img src="/assets/smiley.png" className="w-5" alt="" /></button>
+            <button onClick={() => addSticker("cherry")} className="retro-btn !p-1" data-testid="btn-sticker-cherry"><img src="/assets/cherry.png" className="w-5" alt="" /></button>
+            <button onClick={() => addSticker("bubble")} className="retro-btn !p-1" data-testid="btn-sticker-bubble"><img src="/assets/bubble.png" className="w-5" alt="" /></button>
+            <button onClick={addTape} className="retro-btn" data-testid="btn-tape">📎 TAPE</button>
+            <button onClick={addPaper} className="retro-btn" data-testid="btn-paper">📄 PAPER</button>
+            <button onClick={addNote} className="retro-btn" data-testid="btn-note">📝 NOTE</button>
             <div className="border-l border-[#808080] h-6 mx-1" />
-            <button onClick={bring} className="retro-btn" disabled={!selected}>↑</button>
-            <button onClick={back} className="retro-btn" disabled={!selected}>↓</button>
-            <button onClick={deleteSel} className="retro-btn" disabled={!selected}>✕</button>
+            <button onClick={bring} className="retro-btn" disabled={!selected} data-testid="btn-forward">↑</button>
+            <button onClick={back} className="retro-btn" disabled={!selected} data-testid="btn-back">↓</button>
+            <button onClick={deleteSel} className="retro-btn" disabled={!selected} data-testid="btn-delete">✕</button>
           </div>
         </div>
       </div>

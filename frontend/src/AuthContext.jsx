@@ -10,6 +10,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     (async () => {
+      const t = localStorage.getItem("ag_token");
+      if (!t) { setUser(false); setLoading(false); return; }
       try {
         const u = await api.me();
         setUser(u);
